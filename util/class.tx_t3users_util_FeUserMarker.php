@@ -72,7 +72,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 	 *        Von diesem String hängen die entsprechenden weiteren Marker ab: ###FEUSER_NAME###
 	 * @return String das geparste Template
 	 */
-	public function parseTemplate($template, $feuser, tx_rnbase_util_FormatUtil $formatter, $confId, $marker = 'FEUSER') {
+	public function parseTemplate($template, &$feuser, &$formatter, $confId, $marker = 'FEUSER') {
 		if (!is_object($feuser)) {
 			$feuser = self::getEmptyInstance('tx_t3users_models_feuser');
 		}
@@ -138,7 +138,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 	 *
 	 * @return void
 	 */
-	protected function prepareItem(Tx_Rnbase_Domain_Model_RecordInterface $item, tx_rnbase_configurations $configurations, $confId) {
+	protected function prepareItem(Tx_Rnbase_Domain_Model_DataInterface $item, tx_rnbase_configurations $configurations, $confId) {
 		$item->setIsCurrentUser(
 			$GLOBALS['TSFE']->fe_user->user['uid'] == $item->getUid()
 		);
@@ -184,7 +184,7 @@ class tx_t3users_util_FeUserMarker extends tx_rnbase_util_SimpleMarker {
 	 * @param string $confId
 	 * @param tx_rnbase_util_FormatUtil $formatter
 	 */
-	protected function prepareLinks(&$feuser, $marker, &$markerArray, &$subpartArray, &$wrappedSubpartArray, $confId, &$formatter, $template) {
+	protected function prepareLinks($feuser, $marker, &$markerArray, &$subpartArray, &$wrappedSubpartArray, $confId, $formatter, $template) {
 		parent::prepareLinks($feuser, $marker, $markerArray, $subpartArray, $wrappedSubpartArray, $confId, $formatter, $template);
 		if($feuser->isDetailsEnabled()) {
 			$this->initLink($markerArray, $subpartArray, $wrappedSubpartArray, $formatter, $confId, 'details', $marker, array('feuserId' => $feuser->uid), $template);
